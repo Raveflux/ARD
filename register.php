@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirm_password = $_POST['confirm_password'];
     $email = $_POST['email'];  // Getting email value from form
 
-   if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
         $upload_dir = 'uploads/';
         $tmp_name = $_FILES['profile_picture']['tmp_name'];
         $file_name = basename($_FILES['profile_picture']['name']);
@@ -51,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $profile_picture_error = "Profile picture is required";
     }
-
 
     if (!preg_match('/^' . preg_quote(SCHOOL_ID_PREFIX, '/') . '\d{2}-\d+$/', $school_id_number)) {
         $school_id_format_error = "School ID Number must start with '" . SCHOOL_ID_PREFIX . "' and be in the format 'SCC-xx-xxxx'";
@@ -214,11 +213,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="register-container">
         <h2>Register</h2>
-       <form method="post" action="register.php" enctype="multipart/form-data" onsubmit="return validateForm();">
+        <form method="post" action="register.php" enctype="multipart/form-data" onsubmit="return validateForm();">
             <?php if (!empty($success_message)) : ?>
                 <div class="message success"><?php echo $success_message; ?></div>
             <?php endif; ?>
-
 
 
             <label for="name">Full Name:</label>
