@@ -9,11 +9,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     exit();
 }
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Load the sendEmail function
 require 'mail.php'; // Adjust the path to where sendEmail is defined
