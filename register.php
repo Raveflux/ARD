@@ -213,9 +213,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="register-container">
         <h2>Register</h2>
-        <form method="post" action="register.php" enctype="multipart/form-data">
-    <!-- Remove onsubmit="return validateForm();" for testing -->
-</form>
+       <form method="post" action="register.php" enctype="multipart/form-data" onsubmit="return validateForm();">
+            <?php if (!empty($success_message)) : ?>
+                <div class="message success"><?php echo $success_message; ?></div>
+            <?php endif; ?>
 
 
 
