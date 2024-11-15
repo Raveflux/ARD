@@ -1,4 +1,6 @@
 <?php
+
+include_once "db_connection.php";
 $conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
 
 session_start();

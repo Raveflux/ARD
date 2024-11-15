@@ -1,4 +1,5 @@
 <?php
+include_once "db_connection.php";
 // Step 1: Connect to the database
 $conn = new mysqli('localhost', 'root', '', 'student_rewards');
  // Replace 'mysql' with the service name if you're in Docker

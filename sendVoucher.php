@@ -1,4 +1,6 @@
 <?php
+include_once "db_connection.php";
+
 require 'mail.php'; // Include your mail setup
 $conn = new mysqli('localhost', 'root', '', 'student_rewards'); 
 

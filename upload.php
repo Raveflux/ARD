@@ -1,4 +1,6 @@
 <?php
+include_once "db_connection.php";
+
 // Directory to be created
 $target_dir = "uploads/";
 

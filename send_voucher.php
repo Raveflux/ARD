@@ -1,4 +1,6 @@
 <?php
+include_once "db_connection.php";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['voucher_code'], $_POST['duration'], $_POST['recipient_email'])) {
     require 'phpmailer/src/Exception.php';
     require 'phpmailer/src/PHPMailer.php';

@@ -1,4 +1,5 @@
 <?php
+include_once "db_connection.php";
 session_start(); // Start the session
  // Replace 'mysql' with the service name if you're in Docker
 

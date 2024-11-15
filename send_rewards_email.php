@@ -1,4 +1,5 @@
 <?php
+include_once "db_connection.php";
 session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;

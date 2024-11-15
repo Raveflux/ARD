@@ -1,4 +1,5 @@
 <?php
+include_once "db_connection.php";
 // Ensure the user can't access this page without a valid token
 if (!isset($_GET['token'])) {
     die("Invalid token.");

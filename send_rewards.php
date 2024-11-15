@@ -1,4 +1,5 @@
 <?php
+include_once "db_connection.php";
 // Set up the connection to the database
 $conn = new mysqli('localhost', 'root', '', 'student_rewards');
 if ($conn->connect_error) {

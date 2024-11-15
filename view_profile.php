@@ -1,4 +1,6 @@
 <?php
+include_once "db_connection.php";
+
 session_start();
 $conn = new mysqli('localhost', 'root', '', 'student_rewards');
 // Check if the user is logged in as admin

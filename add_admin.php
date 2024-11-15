@@ -1,5 +1,5 @@
 <?php
-// Replace these values with your own
+include_once "db_connection.php";
 $username = 'adminUsername';
 $password = 'adminPassword'; // Plain text password
 
