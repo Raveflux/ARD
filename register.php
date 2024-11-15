@@ -1,8 +1,9 @@
 <?php
+// db_connection.php will handle the session and connection
 include_once "db_connection.php";
 
-
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
+// Removed session_start() here, since it's already in db_connection.php
+$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Update 'localhost' if using Docker
 
 $username_error = '';
 $school_id_error = '';
@@ -65,11 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($school_id_format_error) && empty($password_error) && empty($password_match_error) && empty($profile_picture_error) && empty($email_error)) {
-        $conn = new mysqli('localhost', 'root', '', 'student_rewards');
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
         // Check if username already exists
         $sql = "SELECT id FROM students WHERE username = ?";
         $stmt = $conn->prepare($sql);
@@ -116,8 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $stmt->close();
-        $conn->close();
     }
+
+    $conn->close();
 }
 ?>
 
