@@ -1,10 +1,21 @@
 <?php
+// Fetch database credentials from environment variables
+$db_host = getenv('DB_HOST') ?: 'localhost';
+$db_user = getenv('DB_USER') ?: 'root';
+$db_pass = getenv('DB_PASS') ?: '';
+$db_name = getenv('DB_NAME') ?: 'student_rewards';
 
-include_once "db_connection.php";
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
+// Establish a connection to the database
+$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+
+// Check if the connection was successful
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 session_start();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
