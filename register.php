@@ -2,8 +2,9 @@
 // db_connection.php will handle the session and connection
 include_once "db_connection.php";
 
-// Removed session_start() here, since it's already in db_connection.php
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Update 'localhost' if using Docker
+
+$conn = new mysqli('mysql-container', 'root', '', 'student_rewards'); // Replace 'mysql-container' if needed
+
 
 $username_error = '';
 $school_id_error = '';
