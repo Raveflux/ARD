@@ -2,6 +2,8 @@
 // db_connection.php will handle the session and connection
 include_once "db_connection.php";
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 
 
