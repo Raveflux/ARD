@@ -1,0 +1,145 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background: url('sccbg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #96140a;
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.back-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.3s;
+    font-size: 1rem;
+}
+
+.back-button:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+
+/* Profile Container */
+.profile-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 80px auto 20px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.profile-picture img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 20%;
+    border: 3px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-info h3 {
+    font-size: 1.8rem;
+    color: #96140a;
+    margin: 10px 0;
+}
+
+.profile-info p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.profile-info strong {
+    color: #96140a;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .back-button {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .profile-container {
+        padding: 15px;
+        margin: 40px auto;
+    }
+
+    .profile-picture img {
+        max-width: 120px;
+        max-height: 120px;
+    }
+
+    .profile-info h3 {
+        font-size: 1.5rem;
+    }
+
+    .profile-info p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h2 {
+        font-size: 1.2rem;
+    }
+
+    .back-button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .profile-container {
+        padding: 10px;
+        margin: 30px auto;
+    }
+}

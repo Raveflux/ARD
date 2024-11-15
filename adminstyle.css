@@ -1,0 +1,511 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-left: 3%;
+  background: url("rwbg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: rgb(0, 0, 0);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  background-color: #96140a;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar {
+  width: 200px;
+  height: 100%;
+  background-color: #96140a;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all 0.3s ease;
+  box-shadow: 12px 0 12px rgba(0, 0, 0, 0.2); /* Add shadow to sidebar */
+}
+
+.sidebar h2 {
+  color: white;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  padding: 25px;
+  display: block;
+  transition: background 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #c81010;
+}
+
+.main-content {
+  margin-left: 220px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.logout-button {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-right: 1%;
+}
+
+.search-bar {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-bar button {
+  padding: 8px 16px;
+  background-color: #96140a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #96140a;
+  color: white;
+}
+
+.delete-button {
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Pagination */
+.pagination {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  padding: 8px 16px;
+  background-color: #96140a;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 0 5px;
+}
+
+/* Total Students Box */
+.total-students-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.student-count p {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  color: #96140a;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #96140a;
+  text-align: center;
+  color: white;
+  line-height: 20px;
+  border-radius: 10px;
+}
+
+/* Post Form Styles */
+form {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #96140a;
+}
+
+form input[type="text"],
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+form input[type="file"] {
+  margin-top: 10px;
+  padding: 5px;
+  font-size: 1rem;
+}
+
+form button[type="submit"] {
+  background-color: #96140a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #c81010;
+}
+
+/* Pagination - Horizontal Style */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination a {
+  text-decoration: none;
+  padding: 10px 15px;
+  background-color: #96140a;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #c81010;
+}
+
+.pagination a:active {
+  background-color: #c81010;
+}
+
+/* Pagination buttons */
+.pagination-button {
+  background-color: #96140a;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.pagination-button:hover {
+  background-color: #c81010;
+  cursor: pointer;
+}
+
+.pagination-button:disabled {
+  background-color: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 180px;
+  }
+
+  .main-content {
+    margin-left: 200px;
+  }
+
+  .sidebar a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    align-items: flex-start;
+  }
+
+  .sidebar {
+    width: 150px;
+    position: relative;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .pagination ul {
+    flex-wrap: wrap;
+  }
+
+  .pagination li {
+    margin: 5px 0;
+  }
+
+  .sidebar a {
+    font-size: 16px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .logout-button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  form {
+    max-width: 100%;
+  }
+
+  .pagination {
+    display: block;
+  }
+
+  .pagination ul {
+    flex-direction: column;
+  }
+
+  .pagination a {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar a {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .header h2 {
+    font-size: 20px;
+  }
+
+  .logout-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .student-count p {
+    font-size: 1.2rem;
+  }
+
+  .pagination a {
+    padding: 8px 12px;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .sidebar.active {
+    display: block;
+  }
+
+  .main-content.shifted {
+    margin-left: 0;
+  }
+}
+.report-title {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.sidebar-open {
+  left: 0; /* Move sidebar into view */
+}
+
+.content-open {
+  margin-left: 20px; /* Shift content to the right */
+}
+/* Full screen overlay for success message */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Success message box */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 18px;
+  text-align: center;
+  max-width: 80%; /* Maximum width */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.5s ease-out; /* Smooth fade-out transition */
+}
+
+/* Error message box */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 18px;
+  text-align: center;
+  max-width: 80%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+#successMessage {
+  animation: fadeOut 3s forwards;
+}
+#duration_unit {
+  width: auto; /* Full width */
+  padding: 10px; /* Padding inside the dropdown */
+  font-size: 1rem; /* Font size */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 6px; /* Rounded corners */
+  background-color: #f9f9f9; /* Background color */
+  color: #333; /* Text color */
+  appearance: none; /* Removes the default arrow icon for a custom look */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background 0.3s, border-color 0.3s;
+}
+
+#duration_unit:focus {
+  border-color: #96140a; /* Border color on focus */
+  outline: none; /* Remove default outline */
+}
+
+#duration_unit:hover {
+  background-color: #eee; /* Light background on hover */
+}
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  position: relative;
+}
+
+.close-modal {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: black;
+}

@@ -1,0 +1,706 @@
+/* General styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0;
+  background: url("sccbg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  animation: fadeIn 2s ease-in; /* Fade-in effect */
+  color: #000000;
+  gap: 20px 0;
+}
+.h1 {
+  color: #333;
+}
+/* Sidebar styles */
+.sidebar {
+  height: 100%;
+  width: 250px;
+  background: linear-gradient(135deg, #96140a, #c81010); /* Gradient effect */
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: left 0.3s ease-in-out;
+  padding-top: 20px;
+  z-index: 999;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar a {
+  padding: 20px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+  display: block;
+  transition: background-color 0.3s, transform 0.3s;
+  border-radius: 6px;
+}
+
+.sidebar a:hover {
+  background-color: #c81010;
+  transform: translateX(10px); /* Sliding effect on hover */
+}
+
+.sidebar h3 {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  letter-spacing: 1px; /* Add some spacing for a more polished look */
+}
+
+/* Menu icon for mobile */
+.menu-icon {
+  font-size: 30px;
+  cursor: pointer;
+  color: #ffffff;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  animation: pulse 2s infinite; /* Pulse effect */
+}
+
+/* Header styles */
+.header {
+  color: #000000;
+  font-size: 2rem;
+  text-align: center;
+  margin: 20px 0;
+  letter-spacing: 1px; /* Slight spacing for emphasis */
+  animation: slideIn 1s ease-out; /* Slide-in effect */
+}
+
+/* Main content styles */
+.content {
+  background-color: rgba(224, 150, 150, 0.521);
+  margin-left: 250px; /* Ensure this matches the sidebar width */
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+  animation: fadeInUp 1s ease-out;
+}
+/* Main content styles */
+.content {
+  background-color: rgba(224, 150, 150, 0.521);
+  margin-left: 250px; /* Default left margin matching sidebar width */
+  padding: 20px;
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+  animation: fadeInUp 1s ease-out;
+}
+
+/* Ensure the post-container aligns correctly */
+.post-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+  animation: bounceIn 1s ease;
+  margin: 50px auto;
+}
+/* Hide the hamburger icon on larger screens */
+@media (min-width: 768px) {
+  .menu-icon {
+    display: none;
+  }
+}
+
+/* Show the hamburger icon on mobile devices */
+@media (max-width: 767px) {
+  .menu-icon {
+    display: block;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    left: -200px; /* Hide sidebar off-screen for smaller screens */
+  }
+
+  .sidebar-open {
+    left: 0; /* Slide sidebar into view when open */
+  }
+
+  .content {
+    margin-left: 0; /* Remove left margin when sidebar is hidden */
+    padding: 10px;
+  }
+
+  .post-container {
+    padding: 10px;
+    margin: 20px auto;
+  }
+
+  .profile-container,
+  .post {
+    width: 100%; /* Make the profile and post containers take full width on small screens */
+    padding: 15px;
+  }
+
+  .profile-picture img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-info p {
+    font-size: 14px;
+  }
+
+  .badge img {
+    width: 30px;
+  }
+
+  .code-form input[type="text"] {
+    max-width: 250px;
+  }
+
+  .post h4 {
+    font-size: 1.25rem;
+  }
+
+  .post p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 5px; /* Further reduce padding for very small screens */
+  }
+
+  .sidebar a {
+    font-size: 16px; /* Adjust text size for smaller screens */
+    padding: 15px;
+  }
+
+  .menu-icon {
+    font-size: 24px;
+    top: 5px;
+    left: 5px;
+  }
+
+  .profile-picture img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .post h4 {
+    font-size: 1rem;
+  }
+
+  .post p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Profile container */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: auto; /* Adjusts width based on content */
+  max-width: 90%; /* Keeps it responsive on larger screens */
+  min-width: 280px; /* Sets a minimum width for smaller screens */
+  margin: 20px auto;
+  animation: bounceIn 1s ease;
+  text-align: left; /* Improves readability for text */
+}
+
+@media (min-width: 600px) {
+  .profile-container {
+    flex-direction: row; /* Changes layout on larger screens */
+    align-items: flex-start;
+  }
+}
+
+.profile-picture {
+  margin-right: 20px; /* Adds spacing between image and text */
+}
+
+.profile-info {
+  max-width: 100%;
+  flex: 1;
+}
+
+/* Profile row to align image and text */
+.profile-row {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 20px; /* Space between image and text */
+}
+
+/* Profile picture in upper-left corner */
+.profile-picture {
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  flex-shrink: 0; /* Prevents image from resizing */
+}
+
+.profile-picture img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile-picture img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Profile content beside the picture */
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profile-info h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.profile-info p {
+  font-size: 18px;
+  color: #333;
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+/* Badges section */
+.badges {
+  display: flex;
+
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.badge {
+  color: #555;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.badge:hover {
+  background-color: #ddd;
+}
+
+/* Adjustments for responsiveness */
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 15px;
+  }
+
+  .profile-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .badges {
+    justify-content: center;
+  }
+}
+
+/* Badge styles */
+.badge {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge img {
+  width: 50px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+
+.badge img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+}
+
+/* Code input field styles */
+.code-form {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.code-form input[type="text"] {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 80%;
+  max-width: 400px;
+  transition: border-color 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+.code-form input[type="text"]:focus {
+  border-color: #96140a;
+  outline: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Focus effect */
+}
+
+.code-form button {
+  background-color: #96140a;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.code-form button:hover {
+  background-color: #c81010;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Button hover effect */
+}
+
+/* Post styles */
+/* Parent container for posts */
+/* Parent container for posts */
+.posts-container {
+  display: flex; /* Enable flexbox */
+  flex-wrap: wrap; /* Allow items to wrap onto new lines */
+  justify-content: center; /* Center items horizontally */
+  gap: 20px 0; /* Space between flex items */
+  padding: 20px;
+  margin-bottom: 5px;
+}
+
+/* Individual post container */
+.post {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  margin: 0 auto; /* Center the post horizontally */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%; /* Ensures the post takes up full width of the parent container */
+  max-width: 500px; /* Prevents the post from being too wide */
+  min-width: 250px; /* Sets a minimum width for smaller screens */
+  text-align: center;
+  box-sizing: border-box;
+  gap: 20px 0;
+  margin-bottom: 25px; /* Ensures vertical gap between posts */
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .post {
+    max-width: 600px;
+    gap: 20px 0; /* Sets a maximum width for larger screens */
+  }
+}
+
+.post:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.post img {
+  max-width: 50%;
+  border-radius: 10px;
+}
+
+.post h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 3%;
+}
+
+.post p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Error/Success Messages */
+.error,
+.success {
+  color: #96140a;
+  font-size: 14px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Pagination styles */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #96140a;
+  border: 1px solid #96140a;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #c81010;
+  color: white;
+  transform: scale(1.05);
+}
+
+.active {
+  background-color: #f7f7f7;
+  color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    left: -250px;
+  }
+
+  .sidebar-open {
+    left: 0;
+  }
+
+  .content-open {
+    margin-left: 250px;
+  }
+
+  .profile-container {
+    padding: 0px;
+    text-align: center;
+  }
+
+  .profile-picture img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-info p {
+    font-size: 14px;
+  }
+
+  .badge img {
+    width: 30px;
+  }
+
+  .code-form input[type="text"] {
+    max-width: 250px;
+  }
+
+  .post {
+    margin: 15px 0;
+    padding: 10px;
+  }
+
+  .post h4 {
+    font-size: 1.25rem;
+  }
+
+  .post p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.sidebar-open {
+  left: 0; /* Move sidebar into view */
+}
+
+.content-open {
+  margin-left: 20px; /* Shift content to the right */
+}
+.ranking-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+.ranking-container h3 {
+  color: #333;
+  margin-top: 20px;
+}
+
+.ranking-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.ranking-container li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ranking-container .trophy {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.ranking-container .rank {
+  font-size: 24px;
+  font-weight: bold;
+  color: #96140a;
+  margin-right: 15px;
+}
+
+.ranking-container img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.ranking-container .name {
+  font-size: 18px;
+  color: #333;
+  flex: 1;
+}
+
+.ranking-container .points {
+  font-size: 18px;
+  color: #96140a;
+}
+.trophy-icon {
+  width: 50px;
+  height: 50px;
+}
+/* Rewards styles */
+.rewards-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+.rewards-container h3 {
+  color: #333;
+  margin-top: 20px;
+}
+
+.rewards-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.rewards-container li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.rewards-container img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.rewards-container .name {
+  font-size: 18px;
+  color: #333;
+  flex: 1;
+}
+
+.rewards-container .points {
+  font-size: 18px;
+  color: #96140a;
+}

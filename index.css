@@ -1,0 +1,170 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: url('sccbg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    text-align: center;
+}
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: rgba(150, 20, 10, 0.9);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.header-logo {
+    height: 30px; /* Size of the logo in the header */
+    width: 30px;
+    border-radius: 50%; /* Circular logo */
+    object-fit: cover;
+}
+
+.header-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: left;
+}
+
+/* Main Container */
+.landing-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 50px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
+    margin-top: 100px; /* Space for fixed header */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.landing-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Logo and Welcome */
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.container-logo {
+    width: 100%;
+    max-width: 250px; /* Adjust the size of the container logo */
+    height: auto;
+
+    margin-bottom: 15px;
+}
+
+.logo-container h2 {
+    color: #c4190d;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Welcome Message */
+.welcome-message {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* Buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.button {
+    background-color: #96140a;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 45%;
+    max-width: 180px;
+}
+
+.button:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+.sign-up {
+    background-color: #96140a;
+}
+
+.sign-up:hover {
+    background-color: #96140a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .landing-container {
+        max-width: 90%;
+        padding: 40px 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-title {
+        font-size: 1.5rem;
+    }
+
+    .landing-container {
+        padding: 30px 15px;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: none;
+    }
+
+    .welcome-message {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .header-title {
+        font-size: 1.3rem;
+    }
+
+    .welcome-message {
+        font-size: 0.9rem;
+    }
+
+    .container-logo {
+        max-width: 80px; /* Smaller logo size */
+    }
+}

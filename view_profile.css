@@ -1,0 +1,131 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #96140a;
+    color: white;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.back-button {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Profile Container */
+.profile-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 80px auto;
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.profile-picture {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-picture img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+
+.profile-info {
+    flex: 2;
+}
+
+.profile-info h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #96140a;
+}
+
+.profile-info p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.profile-info strong {
+    color: #96140a;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Stack header items vertically */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .back-button {
+        width: 100%; /* Full width button on small screens */
+        margin-top: 10px; /* Space between header and button */
+    }
+
+    .profile-container {
+        margin: 40px auto; /* Reduce margin on mobile */
+        padding: 15px; /* Smaller padding */
+        flex-direction: column; /* Stack profile picture and info */
+        align-items: center; /* Center content */
+        gap: 15px; /* Reduced gap for mobile */
+    }
+
+    .profile-picture img {
+        max-width: 120px; /* Smaller image on mobile */
+        max-height: 120px;
+    }
+
+    .profile-info h3 {
+        font-size: 1.3rem; /* Smaller font size for headings */
+    }
+
+    .profile-info p {
+        font-size: 0.9rem; /* Smaller font size for paragraph text */
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 10px; /* Smaller padding on very small screens */
+    }
+
+    .header h2 {
+        font-size: 1.2rem; /* Smaller title on small screens */
+    }
+
+    .back-button {
+        font-size: 14px; /* Smaller button text */
+    }
+}

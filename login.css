@@ -1,0 +1,248 @@
+/* General styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 10px;
+  background: url("sccbg.jpg");
+  background-size: cover;
+  background-color: rgba(199, 105, 113, 0.856);
+  color: #fff;
+  text-align: center;
+}
+
+/* Container styles */
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.795);
+  width: 100%; /* Ensure form takes full width on smaller screens */
+  max-width: 500px;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin: 10px; /* Added margin for small screens */
+}
+
+form:hover {
+  transform: translateY(-2px);
+}
+
+/* Main container */
+.container {
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 8px;
+
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Left side (image) */
+.leftdiv {
+  flex: 1;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.leftdiv img {
+  width: 100%; /* Makes sure the image is responsive */
+  height: auto; /* Keeps the aspect ratio intact */
+}
+
+/* Right side (form and login container) */
+.login-container {
+  flex: 1;
+  padding: 20px;
+  background-color: #96140a;
+  max-width: auto;
+}
+
+/* Error and success messages */
+.error-text {
+  color: red;
+}
+
+.message.success {
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #d6e9c6;
+}
+
+/* Form elements */
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+
+  font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus {
+  border-color: #96140a;
+  outline: none;
+  box-shadow: 0 0 5px rgba(150, 20, 10, 0.5);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #96140a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #c81010;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+button[type="submit"]:active {
+  background-color: #96140a;
+}
+
+/* Back button styles */
+.back-button {
+  margin-top: 15px;
+  background-color: #ddd;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #ccc;
+}
+
+a {
+  color: #fdfdfd;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 600px) {
+  /* Hide the image on mobile screens */
+  .leftdiv img {
+    display: none;
+  }
+
+  /* Adjust form padding and margins for smaller screens */
+  body {
+    padding: 5px;
+  }
+
+  form {
+    padding: 15px;
+    margin: 5px; /* Adjusted margin for better spacing */
+  }
+
+  h2 {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="password"] {
+    font-size: 15px; /* Adjust input font size for small screens */
+  }
+
+  button[type="submit"] {
+    font-size: 16px;
+    padding: 10px; /* Reduced padding for smaller screens */
+  }
+
+  /* Adjust back button for small screens */
+  .back-button {
+    width: 100%; /* Full width on smaller screens */
+    padding: 12px; /* Consistent padding */
+    font-size: 16px; /* Adjust font size */
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content */
+    align-items: center; /* Vertically center */
+  }
+
+  .login-container {
+    width: 100%; /* Make login-container full width */
+    max-width: 500px; /* Optional: Max width for form */
+  }
+}
+/* Button styles */
+button[type="submit"],
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #96140a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button[type="submit"]:hover,
+.register-btn:hover {
+  background-color: #c81010;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+button[type="submit"]:active,
+.register-btn:active {
+  background-color: #96140a;
+}
+
+/* Add space between the buttons */
+button[type="submit"] {
+  margin-bottom: 10px; /* Space between the Login button and Register button */
+}
+
+/* Optional: Adjust the spacing between the buttons */
+form {
+  margin-bottom: 10px; /* Add space between buttons */
+}

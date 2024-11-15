@@ -1,0 +1,277 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define TRIG_PAPER 2
+#define ECHO_PAPER 3
+#define TRIG_PLASTIC 4
+#define ECHO_PLASTIC 5
+#define TRIG_WATER 6
+#define ECHO_WATER 7
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// Variables to store the trash counts
+int paperCount = 0;
+int plasticCount = 0;
+int waterBottleCount = 0;
+
+// Thresholds for each type of trash
+int paperThreshold = 10;
+int plasticThreshold = 5;
+int waterBottleThreshold = 3;
+
+// Trash detection distances
+int detectionDistance = 10; // Adjust based on your setup
+
+// List of predefined codes
+String codes[] = {
+    "KXsrbn", "xjPEgu", "IYIXWm", "RlOffI", "HIzhWQ", "eJeIaH", "ToAXlL", "7jhFGG", "Wc6fmg", "pQn0zW",
+  "ZQC5xJ", "fwZsvD", "zH3cqZ", "CwJFDb", "2JKCtf", "l6jXlA", "VmWbZf", "iVRoQw", "YkMGaV", "1Ao8Yj",
+  "6CeWO6", "HR5gK6", "oKKA1s", "T6UONw", "ETDeyo", "3GBIVv", "3sANAP", "M3nzzg", "yphawe", "YzfCRT",
+  "NGJ6gP", "x9yK5K", "BUWxAy", "PuUz9L", "VSJz1P", "EkaMUr", "ySFHMt", "hfY0oJ", "d9qse5", "ZHLbSm",
+  "pKLGAD", "UX8dfU", "iu1Dyh", "T03GdW", "ehe7P1", "59s108", "t4SASi", "B9T8q4", "6ruzA5", "qrqFjS",
+  "LS6j5p", "E6Ssvw", "wD95Aw", "WKJUlU", "IHnV3K", "mxdrVR", "usZIBr", "pA0GHN", "EG3tW6", "bsPTBp",
+  "FiXYYA", "Een3WJ", "BxyZLh", "l0SLmS", "rrqt2x", "W2D898", "PFrd5B", "ucmEkD", "2JYPAZ", "JtCUjE",
+  "iTLIfE", "S6qfxF", "p8fI1d", "1ZDxLa", "copgdJ", "h9rs8I", "8Le5Q5", "S0il6M", "eQSSjb", "MWep7d",
+  "PFEgNV", "pzc1Ae", "GSAp0S", "gRFo83", "MkLQ0m", "nMq5j6", "qegx85", "hKEIIL", "lnBQkD", "LMYAo0",
+  "ui8O7E", "IqnoMP", "SrWUbC", "1iMT0D", "LfhCbV", "dvU7Mk", "SW3iWm", "6Il4t8", "af0yya""1DNmj4",
+  "Gw7nFW", "pjjGna", "HTPCvz", "tWn5V6", "FRxG2r", "FfP084", "NxO9qT", "QVgnqa", "NIwIuv",
+"CeYiBM", "M33eAl", "vthmRn", "7Hlufo", "Adcfxl", "ypu9Cc", "eCuKCo", "AtNYL0", "0emYBX", "wBIXlw",
+"zlVXkd", "q79QWw", "LoGBoI", "FHrzrT", "kXuxmN", "cSSKx2", "iH1fLT", "EYe1Mj", "Qh2vho", "FZinsH",
+"gOwHUW", "82wZqT", "nlz8gt", "EdFk7F", "hG3OcE", "E1hJlF", "O9xWQR", "ExC4AJ", "AR9E6B", "N4G4nS",
+"lMu7Kt", "RHqjHC", "XllT3m", "GZTPeE", "nBW5bh", "aIqgpE", "8P393u", "nuo874", "jYJQfJ", "47c18m",
+"fRu7Wm", "jzrUu3", "RsgmGj", "hxCBdp", "yURCJz", "kWMTXR", "BJ421o", "fB6lMP", "Nl8MFk", "cDjuXX",
+"cg6FZU", "ao8ra8", "yE8p2k", "GN6hCJ", "GQOfRl", "MXUgLv", "qPldIT", "dtDOi7", "8uT9lC", "vvw3HL",
+"0JoZCK", "XwaU3z", "NrAdD5", "5QWKcv", "HUjF6H", "ufAE4C", "TCL4BG", "dEce3s", "9qqShV", "91elDQ",
+"wJRSJR", "hCk6GL", "a6KhPz", "GfnIDj", "ne6ZbJ", "TsLH6l", "x3o4re", "RrFav4", "fwvAwr", "VErQv9",
+"XhHHlo", "q0ROL6", "qBzisE", "7LJAKi", "JTNvyw", "pTUKPe", "zRC8Oy", "Z3KMBt", "tKMaDT", "CzD6OH"
+"ZHAhCn", "b5vUzr", "n51boe", "MpAGhF", "e1lJQZ", "G9DppS", "fN8ia4", "tk3xbZ", "ZlU7oq", "YOcBlI",
+"BdZynk", "ohQrKH", "jzJKyB", "X65dT9", "f8tcOI", "6yTUP6", "bF2UwC", "svM3B9", "rqBvO9", "Kb5qYm",
+"MZPBcK", "llW1S8", "hq0JCc", "EZ1aXZ", "SUrpXt", "Ly9FTL", "JE6iNb", "G0mGKR", "ukz7Ta", "F6HThP",
+"9HFDiP", "B30bYw", "8mWKU3", "BQ3Hcr", "W2F0T7", "CGPsQQ", "qVpUeZ", "dR0T8d", "RmLdm2", "HOPxhA",
+"vfqKjO", "UJLLip", "9DCq3n", "zO0pgf", "cfSqHE", "25CoMn", "E0Uuuy", "jalc65", "3AMPtl", "N7CFkj",
+"i07us8", "JZtDLl", "XRBFT7", "kU2MX6", "5laZLv", "MgK98S", "evB1bd", "ldgbQs", "m3JlUG", "8gMF3D",
+"BRS235", "wrwaGe", "XyA3r7", "sIZdOM", "iRqaFA", "lF53i7", "NTk5FS", "oNjDyd", "R6hjG6", "Muk00i",
+"L8k3aA", "jpMIxA", "vj6eQK", "vW80Ng", "bqhhKu", "0o0h8f", "ODnFqr", "Jq1VFC", "ZSX6WM", "zH01PA",
+"4HpvGe", "VAlhsJ", "HYjjOV", "MUYeal", "6KfFrM", "2woCuZ", "cX4q6I", "aq7vmH", "697brz", "nB1Wu3",
+"5UmLPl", "x2HazB", "RImMbB", "GJpOqh", "Rr6Ebv", "nFZBKB", "NQbUOm", "JkOBsQ", "QX3vTF", "dUnG1K"
+"wRh7TB", "364uF7", "yELxzH", "0sR8cr", "zHUY31", "Gwy9lS", "oOj7MA", "9EUgpo", "AOx8ky", "OrY8og",
+"eUSMWs", "XZZ2SC", "RcVuXL", "ODlrbC", "vEmvtP", "4CGSe7", "V65U74", "infED6", "xO0tfc", "RC4C21",
+"1zoMWk", "QShOsM", "rlMfQw", "q6AWBp", "8aqJit", "Yn7JkS", "xgp1GO", "cuvJyC", "HIM4J2", "2u1mxt",
+"Lfssjg", "t26BR0", "ePVZsO", "Bi3wPy", "9s2f2N", "Z5eXN2", "1wpGi3", "X8I7Gg", "0Js6MQ", "4mZjkd",
+"jbFenW", "5nJwAr", "oSt8k0", "Smmz60", "fIT6Ul", "ZCk2aP", "67g7fB", "kqwV1G", "53zja7", "n4i7mI",
+"94Zly4", "aDbkXy", "faNQZd", "EFOi1Z", "HaDFnV", "laJjzy", "dEyDCW", "l7rdmx", "gtjGmq", "h2HPlG",
+"xbfbFc", "H3xcJC", "aA775c", "EVNIm3", "Lgh7HW", "cnX4D8", "MQpUDB", "lHaoh3", "t99Opi", "iDn7G9",
+"3TNi6i", "sMkjku", "bcJx3r", "PkUCLm", "AYVoN3", "1v9aRG", "QoKcY6", "5amPYA", "q2jVSG", "XG5Q16",
+"Aa2MhH", "T1c3vL", "3V1weD", "zWeJxU", "sRff1F", "CUlPLH", "ML1JhW", "shzR3k", "izyFQn", "vplcil",
+"2OnCyc", "h0j3mv", "CNvX0j", "KJouHb", "WXOaI4", "1aA4KB", "rxwVvJ", "4OFIST", "HF8nBj", "pj4haI"
+"x5Kmue", "ziSokr", "lKjZI2", "kRpNO6", "9qMAxd", "0oR2FF", "vdxtNO", "xPk5B5", "tiVBOA", "sWHSry",
+"boKeIP", "mrVb91", "g9SW93", "XvgQg9", "aA3bZV", "iCCmQB", "fxlmxr", "LIlhMX", "b3WPSs", "4edff5",
+"NehdjG", "LCkPsH", "3NxMIx", "cUYtGK", "0cd9b8", "fWiNRu", "c9d36H", "pixgAI", "VhCzOu", "1P4dlv",
+"fjB4Kg", "U8DrUH", "9hfLqH", "EVymTm", "9asnBI", "30QXX0", "LK6t7f", "CQpOEd", "lDyiIA", "oESNkK",
+"tOeVtM", "mlYYfW", "ahlJay", "38unQI", "Dnu0kW", "pyqXH1", "7fk20b", "Dgr13k", "hKULSc", "DaUhr6",
+"dB0uY1", "HyJHKQ", "q2tCTF", "aTkDuX", "OL0cpp", "QBc9Tl", "thVPZk", "LBpotQ", "vYP0fA", "dWl0ki",
+"Lqwv4K", "IvP5oE", "O2R3zS", "m3KFmj", "T4YIua", "EWJX6z", "4Y2sv9", "SDhtWj", "WIB5hM", "Pdh4Zm",
+"ls7or2", "kypwta", "qfbsPo", "bU8hCt", "eI4zl6", "iewSga", "G0at6Y", "pMidwh", "jsFRiF", "10DcwC",
+"geKYFc", "DwinMe", "Vvfgwp", "jKuEY5", "Rcn6vz", "qXCWLb", "mkCXBt", "Kbpq6z", "9dPSJp", "WDoEWP",
+"94e1JH", "k1dWAk", "dzH14g", "oJLyIf", "qNBoSO", "QaJeJc", "uVI2FA", "rWzwHb", "zfbsH2", "VdC84J"
+"s5vmX0", "QxROsv", "NAB0cf", "LdLzbl", "65zgPu", "gbs3vW", "VpUhFo", "Rq3aBh", "oxaQyG", "fRVcqM",
+"IeakVo", "aW3kai", "Bp3gEO", "tsp5bq", "6vAYgd", "jrbZei", "G7uEbx", "qa0wIZ", "lSfiNR", "XMwWeB",
+"JyEZyC", "ma3zMX", "9VON2f", "6nLbXO", "Bj6CDW", "aTngzL", "5c2H0B", "PfpC2i", "Hl8CnP", "b9hslH",
+"PmaHgN", "cCjXX8", "sc1XJQ", "BUTUFv", "X3Nz9E", "ntFCpv", "xnHLTC", "8NiYrq", "gVG9Wj", "8CrB31",
+"C39tks", "2jPJ5g", "TPDnp1", "YaNXAr", "t3Q9Sm", "fXCQaB", "uUkZT2", "2ztdO2", "NMMvGF", "LF66qE",
+"f2tWuZ", "Cgfi0p", "vU5ZH9", "mpm4yA", "uPdvGx", "i5vCPk", "0cQXNa", "j9yk91", "WqQpqI", "Nmn4yF",
+"mVo4Sc", "9qL8RP", "9txN0X", "iZCx78", "93yGtF", "JZPIAw", "tvZxlv", "vGx8NQ", "t1d0TC", "ghWPGP",
+"siBtMq", "ouRDpl", "t4ZNU3", "Szakqh", "Yx05ha", "s67sAp", "MAjyjC", "PxxZyp", "qA4TgG", "83wbKU",
+"t6lMOd", "ptjCN6", "41Alb6", "87ClGj", "WrFFUt", "orBo66", "nD8uEY", "J31dA6", "ZWF63I", "C9u2hL",
+"855mi3", "Lc9we9", "PBXrT0", "aQgO5m", "vH9cDR", "4XcFqh", "ExCJOP", "Fr24Td", "Oblanm", "djNHP3"
+"LgxfOg", "BAsHc8", "gr4qfP", "veVpTN", "QNkJBh", "GAvK9g", "xESEhy", "DIe1vN", "rBzTWh", "KtT18o",
+"l9bttw", "XrW254", "NyVFnx", "atYtIX", "HcjRVY", "VA9CtL", "Gxh8z2", "uWFspG", "mtDdYO", "ZRl2uR",
+"K5hnnr", "qcn2JV", "nJRuR5", "KoWyu8", "fdacgB", "SW2FgO", "ih2VDi", "VSCUgG", "NiX2a1", "M3LZjC",
+"mwYxDf", "CV06is", "wniJ44", "27OG8j", "5hIGfB", "nrPBaW", "dBy2UE", "bQCPrj", "TTFLHM", "E8OGvz",
+"swVs8O", "2wG0uk", "XEtBen", "RqEPOM", "i4HSNw", "8D9Q3n", "tSkXHh", "WM6tKc", "sL284U", "La3Mtm",
+"iAngdO", "YyvIYP", "Tpx7jb", "11BEDN", "5OxcI4", "UNcJqr", "VJSslR", "a5yowW", "pbPiWZ", "E0h8vb",
+"ZP5I1a", "pdFN9n", "AGOkmV", "JfpJK7", "p4Aia7", "wk9axf", "jNsgGC", "I05CSw", "zRIVLr", "6lDLxT",
+"gnyYM0", "cxmwp9", "mVTjFH", "2MswaN", "LfK3RU", "YBlLOz", "PMvG7e", "elWP5y", "c7xZ0r", "rBdSLP",
+"cTepci", "ZJp9cJ", "Qe8nlC", "XuPoan", "9qiDsd", "d6cWpx", "0zMl6e", "Lpzhze", "Lk37RH", "7z0exI",
+"rogW4X", "NcuNOV", "9g69Rx", "zU7k08", "LuQ2PM", "lTCjk2", "pHyPUj", "aqaula", "uR749R", "CmNJun"
+"6uwaXl", "b7w6oC", "xfMg7F", "WabNKZ", "MwdaHx", "1AZrhc", "3k8vfv", "zs7uxk", "2neKLc", "HfZsU5",
+"5Bt2Y1", "IpOhj8", "3X49Zg", "i6QzBi", "552MIt", "JaB7q4", "7CKkwV", "4GVY0P", "FTfbGM", "sPIjif",
+"KGvjog", "HuPA8S", "RYvjXP", "bDaUK2", "cWILwI", "pior3k", "C77MeY", "GDD3U8", "MDjOz5", "aS9D6g",
+"oEzY2I", "UlzHjQ", "a4Z6Rz", "V9R1B0", "cUTZNb", "M0P1Uw", "X2wPbo", "xe5RXS", "7DK5W4", "z0saPK",
+"oK3m6t", "512cFx", "QjzJZr", "0ALYYc", "aOKXLt", "EmyJvH", "Ic796H", "9CsUOX", "HmEqoK", "OwiUZv",
+"JiTQ7o", "v9lQjv", "PiZD18", "GTd3EC", "NQFELR", "sYs9AI", "HReKbt", "z1aKHS", "W6MCIg", "qVXvRG",
+"VuR3y5", "jB8CCr", "8ZIqiL", "FEetvr", "gruErY", "hIv20E", "ENbCLo", "OksGOj", "nxGnlt", "tMA0Av",
+"XE3mWH", "B2jIJ3", "2licg5", "J5MjVK", "pnQgsO", "OgvPXJ", "eThjkd", "B7IpQT", "J5A9l6", "CIvorb",
+"viSbyT", "JXWMn5", "vLac6l", "i9kjfo", "eRPhEF", "IyFsN0", "QuDX0K", "IZlKg9", "BuKmYL", "tzCa1d",
+"JUKjGM", "tEYy1A", "SyPwnf", "dYirPn", "l2EmlI", "jYlXJh", "ZVqAfv", "2EGLZm", "lNFqhn", "ZJs73b"
+"yfkRtQ", "RgacSJ", "LKVGN0", "smjMJX", "M7wO3X", "EImz4f", "JL506i", "GGLPPU", "UzMTjn", "B5p65s",
+"HSKuky", "AYsbdC", "PgId91", "wilZxN", "o3kjOd", "TpCByI", "gx6R72", "y3lMrj", "KrvnNm", "R3fcVl",
+"Pd6suq", "XrM59U", "L20FPz", "DAZiOj", "YY7tec", "CrVUz7", "IZTTns", "OZMlgy", "ph12XC", "yGX5Xl",
+"5HMF9r", "u73V97", "MbaeKT", "QKkPQc", "Qj816Z", "txgmGs", "XUmjb6", "v94PMZ", "4km2IP", "1LQFl3",
+"1ZhBBa", "5pickD", "TGUY0f", "aWAInT", "iwHpEt", "oBmrAz", "AFmDKf", "BUCabS", "UpMBn2", "GLQInp",
+"DNfMmb", "2HG1Wq", "km68Bg", "Xn2jVc", "O8bJyA", "ssgzm4", "Evfyyp", "GMFJXC", "IRYqEr", "arPPPI",
+"8Mfjkd", "jGjwoP", "QMXuBN", "rJtU7H", "vcbV8y", "z6r0R9", "2gELbt", "cMPcbp", "Hs8ple", "1DlFli",
+"BMDVKD", "etGLsc", "EZvnO5", "7Zplq3", "aAX7yW", "pBuJaw", "w5fBsn", "kxAfuj", "OsFQML", "syHnJ9",
+"SMYdJB", "AL5l8P", "rN9JVh", "f4zKTX", "UqfEJR", "LSTpOE", "6IlZ1R", "cBj9ng", "qDvkMd", "WE5Lzt",
+"zu2ohR", "wpRCEY", "Nj070Z", "s2TaJC", "m4jxxt", "175OSj", "hyBmBF", "PGrpbG", "w8EfOO", "2rbBlq"
+"74Ckqf", "tiCXb1", "1RyeHz", "ia93ny", "IWl6ow", "ePdZwS", "Gq8GSE", "5wtAlV", "Jt8RwW", "KEO8WP",
+"zAkKSf", "j7MulG", "QoPphP", "zF1GVM", "4ocFZZ", "t3zABB", "C6fv2n", "TwNs6z", "Ho0VZa", "K7qKnm",
+"fb78Gh", "Coz83l", "XwFKdq", "N6ypPR", "ScM2II", "fOlAcO", "zqZPrr", "acBZzs", "MOAN6w", "Lkk6RK",
+"M1sWSO", "QXWZng", "kTWo9g", "p8HzU1", "sqEGWe", "DPbH8v", "Lu2t32", "gP7VGi", "sPDdAi", "TRTzsw",
+"vwHMJs", "qDhFpZ", "aHMbs8", "svRGzH", "kXahJZ", "DcBWUM", "FbC7Sd", "3ME6uM", "VBvNtn", "uZiBQk",
+"gdAzm7", "nZHe1r", "s1Jjxb", "u59UIO", "NgBmbC", "HZhlOx", "4GQLri", "tFyxkw", "t0v0e8", "imayVM",
+"2XkudQ", "zDfW5j", "6H8iKn", "J9sofw", "fYSEsk", "1ZltP5", "NhRDjj", "qLhm2S", "XoL5hr", "BI9dV6",
+"dZea8C", "e93lBu", "PGVTYS", "xJTTuz", "NoNTID", "k9r1ME", "g8JDIr", "wYzZfC", "YbgOvP", "5c25kx",
+"JcxKjI", "eEdCne", "aPn9mi", "ruSLqd", "fUjM0m", "O1L7wE", "Zlm0v7", "YhUYb2", "ZEG6nR", "hecszX",
+"83Rf06", "JM2xLR", "KJeV0J", "vCs5bq", "hgttQk", "sSBumU", "ulsGkI", "uR4szg", "vhFtEd", "4IN2kV",
+"cyW1eo"
+
+};
+
+// Variable to keep track of the current code index
+int codeIndex = 0;
+
+// Timer for automatic reset if no detection occurs within 30 seconds
+unsigned long paperLastDetection = 0;
+unsigned long plasticLastDetection = 0;
+unsigned long waterLastDetection = 0;
+
+unsigned long resetTime = 30000; // 30 seconds timeout
+
+// Function to display the current trash count for a single sensor
+void displaySingleCount(String trashType, int count) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(trashType + ": ");
+    lcd.print(count);
+    delay(1000); // Display the count for 1 second
+}
+
+void setup() {
+    lcd.init();
+    lcd.backlight();
+
+    // Initialize ultrasonic sensors
+    pinMode(TRIG_PAPER, OUTPUT);
+    pinMode(ECHO_PAPER, INPUT);
+    pinMode(TRIG_PLASTIC, OUTPUT);
+    pinMode(ECHO_PLASTIC, INPUT);
+    pinMode(TRIG_WATER, OUTPUT);
+    pinMode(ECHO_WATER, INPUT);
+
+    // Display welcome message
+    lcd.setCursor(0, 0);
+    lcd.print("Trash Counter");
+    delay(2000);
+    lcd.clear();
+}
+
+void loop() {
+    bool detectedTrash = false;  // Flag to track if trash was detected in this loop
+
+    // Check if any trash has been detected
+    if (detectTrash(TRIG_PAPER, ECHO_PAPER)) {
+        paperCount++;
+        displaySingleCount("Paper", paperCount);
+        paperLastDetection = millis(); // Update last detection time for paper
+        delay(1000); // Allow only one detection at a time
+        detectedTrash = true;
+    }
+
+    if (detectTrash(TRIG_PLASTIC, ECHO_PLASTIC)) {
+        plasticCount++;
+        displaySingleCount("Plastic", plasticCount);
+        plasticLastDetection = millis(); // Update last detection time for plastic
+        delay(1000);
+        detectedTrash = true;
+    }
+
+    if (detectTrash(TRIG_WATER, ECHO_WATER)) {
+        waterBottleCount++;
+        displaySingleCount("Water", waterBottleCount);
+        waterLastDetection = millis(); // Update last detection time for water
+        delay(1000);
+        detectedTrash = true;
+    }
+
+    // Display "No trash detected" if no object is detected by any sensor
+    if (!detectedTrash) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("No trash detected");
+        delay(1000);
+    }
+
+    // Check if the thresholds are reached
+    if (paperCount >= paperThreshold) {
+        displayCode();
+        paperCount = 0; // Reset count after displaying code
+    } else if (plasticCount >= plasticThreshold) {
+        displayCode();
+        plasticCount = 0; // Reset count after displaying code
+    } else if (waterBottleCount >= waterBottleThreshold) {
+        displayCode();
+        waterBottleCount = 0; // Reset count after displaying code
+    }
+
+    // Check if 30 seconds have passed without detection and reset the counters
+    if (millis() - paperLastDetection >= resetTime) {
+        paperCount = 0;
+    }
+    if (millis() - plasticLastDetection >= resetTime) {
+        plasticCount = 0;
+    }
+    if (millis() - waterLastDetection >= resetTime) {
+        waterBottleCount = 0;
+    }
+
+    delay(500); // General delay to prevent rapid reading
+}
+
+// Function to detect trash using ultrasonic sensor
+bool detectTrash(int trigPin, int echoPin) {
+    long duration, distance;
+
+    // Trigger the ultrasonic burst
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+
+    // Read the echo
+    duration = pulseIn(echoPin, HIGH);
+
+    // Calculate the distance in cm
+    distance = duration * 0.034 / 2;
+
+    // Return true if object is within the detection range
+    return (distance > 0 && distance <= detectionDistance);
+}
+
+// Function to display a code from the list on LCD for 30 seconds
+void displayCode() {
+    if (codeIndex < (sizeof(codes) / sizeof(codes[0]))) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Code: ");
+        lcd.setCursor(0, 1);
+        lcd.print(codes[codeIndex]);
+        codeIndex++; // Move to the next code in the list
+        delay(30000); // Display the code for 30 seconds
+        lcd.clear();
+
+        // Display the current counts after showing the code
+        lcd.setCursor(0, 0);
+        lcd.print("Paper: " + String(paperCount));
+        lcd.setCursor(0, 1);
+        lcd.print("Plastic: " + String(plasticCount));
+        delay(2000); // Display counts for 2 seconds
+    } else {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("No more codes");
+        delay(2000); // Show the message for 2 seconds
+    }
+}
