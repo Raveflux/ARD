@@ -1,9 +1,9 @@
 <?php
 // Fetch database credentials from environment variables
 $db_host = getenv('DB_HOST') ?: 'localhost';
-$db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASS') ?: '';
-$db_name = getenv('DB_NAME') ?: 'student_rewards';
+$db_user = getenv('DB_USERNAME') ?: 'root'; // Updated variable name if DB_USERNAME is used
+$db_pass = getenv('DB_PASSWORD') ?: '';
+$db_name = getenv('DB_DATABASE') ?: 'student_rewards';
 
 // Establish a connection to the database
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
@@ -15,6 +15,7 @@ if ($conn->connect_error) {
 
 session_start();
 ?>
+
 
 
 <!DOCTYPE html>
