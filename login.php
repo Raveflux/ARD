@@ -1,9 +1,7 @@
 <?php
 include_once "db_connection.php";
 
-session_start();
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
-
+// Check if the login form was submitted
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,22 +10,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
+        // SQL query to check if the username exists
         $sql = "SELECT id, password, status FROM students WHERE username = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('s', $username);
         $stmt->execute();
         $result = $stmt->get_result();
 
+        // Check if a user was found
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
 
+            // Check if the account is approved
             if ($row['status'] !== 'approved') {
                 $error_message = "Account pending approval. Please wait for admin approval.";
             } elseif (password_verify($password, $row['password'])) {
+                // Start a session for the logged-in user
                 $_SESSION['student_id'] = $row['id'];
                 header("Location: student.php");
                 exit();
