@@ -37,20 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirm_password = $_POST['confirm_password'];
     $email = $_POST['email'];  // Getting email value from form
 
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
-        $upload_dir = 'uploads/';
-        $tmp_name = $_FILES['profile_picture']['tmp_name'];
-        $file_name = basename($_FILES['profile_picture']['name']);
-        $upload_file = $upload_dir . $file_name;
+   if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
+    $upload_dir = 'uploads/';
+    $tmp_name = $_FILES['profile_picture']['tmp_name'];
+    $file_name = time() . '_' . basename($_FILES['profile_picture']['name']);  // Add timestamp for uniqueness
+    $upload_file = $upload_dir . $file_name;
 
-        if (move_uploaded_file($tmp_name, $upload_file)) {
-            $profile_picture = $upload_file;
-        } else {
-            $profile_picture_error = "Failed to upload profile picture";
-        }
+    if (move_uploaded_file($tmp_name, $upload_file)) {
+        $profile_picture = $upload_file;
     } else {
-        $profile_picture_error = "Profile picture is required";
+        $profile_picture_error = "Failed to upload profile picture";
     }
+} else {
+    $profile_picture_error = "Profile picture is required";
+}
+
 
     if (!preg_match('/^' . preg_quote(SCHOOL_ID_PREFIX, '/') . '\d{2}-\d+$/', $school_id_number)) {
         $school_id_format_error = "School ID Number must start with '" . SCHOOL_ID_PREFIX . "' and be in the format 'SCC-xx-xxxx'";
