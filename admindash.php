@@ -1,8 +1,7 @@
 <?php
 include_once "db_connection.php";
 
-session_start();
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
+
 
 // Check if the user is logged in as admin
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
