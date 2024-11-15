@@ -3,7 +3,7 @@
 include_once "db_connection.php";
 
 
-$conn = new mysqli('mysql-container', 'root', '', 'student_rewards'); // Replace 'mysql-container' if needed
+
 
 
 $username_error = '';
