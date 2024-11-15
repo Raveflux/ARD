@@ -4,9 +4,7 @@ include_once "db_connection.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
 
-session_start();
 
 $error_message = '';
 
