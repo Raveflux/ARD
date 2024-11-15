@@ -10,11 +10,7 @@ if (!isset($_SESSION['student_id'])) {
 $student_id = $_SESSION['student_id'];
 
 // Database connection
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Fetch student details
 $sql = "SELECT name, school_id_number, points, profile_picture FROM students WHERE id=?";
