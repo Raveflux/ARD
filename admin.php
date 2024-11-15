@@ -2,17 +2,7 @@
 include_once "db_connection.php";
 
 
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
 
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
-    header("Location: login.php");
-    exit();
-}
-
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Handle deletion
 if (isset($_GET['delete'])) {
