@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
 }
 
 // Database connection
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
+
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
