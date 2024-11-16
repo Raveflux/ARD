@@ -150,64 +150,85 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         function validateForm() {
-            var schoolId = document.getElementById('school_id_number').value;
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirm_password').value;
-            var profilePicture = document.getElementById('profile_picture').files.length;
-            var email = document.getElementById('email').value;
-            var regex = /^SCC-\d{2}-\d+$/;
-            var schoolIdErrorField = document.getElementById('school_id_format_error');
-            var passwordErrorField = document.getElementById('password_error');
-            var confirmPasswordErrorField = document.getElementById('confirm_password_error');
-            var profilePictureErrorField = document.getElementById('profile_picture_error');
-            var emailErrorField = document.getElementById('email_error');  // Error for email validation
+    var schoolId = document.getElementById('school_id_number').value;
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirm_password').value;
+    var profilePicture = document.getElementById('profile_picture').files.length;
+    var email = document.getElementById('email').value;
+    var regex = /^SCC-\d{2}-\d+$/;
+    var schoolIdErrorField = document.getElementById('school_id_format_error');
+    var passwordErrorField = document.getElementById('password_error');
+    var confirmPasswordErrorField = document.getElementById('confirm_password_error');
+    var profilePictureErrorField = document.getElementById('profile_picture_error');
+    var emailErrorField = document.getElementById('email_error');  // Error for email validation
 
-            var valid = true;
+    var valid = true;
 
-            if (!regex.test(schoolId)) {
-                schoolIdErrorField.textContent = "School ID Number must start with 'SCC-' and be in the format 'SCC-xx-xxxx'";
-                schoolIdErrorField.style.display = "block";
-                valid = false;
-            } else {
-                schoolIdErrorField.style.display = "none";
+    // School ID validation
+    if (!regex.test(schoolId)) {
+        schoolIdErrorField.textContent = "School ID Number must start with 'SCC-' and be in the format 'SCC-xx-xxxx'";
+        schoolIdErrorField.style.display = "block";
+        valid = false;
+    } else {
+        schoolIdErrorField.style.display = "none";
+    }
+
+    // Password validation
+    if (password.length < 5) {
+        passwordErrorField.textContent = "Password must contain at least 5 characters";
+        passwordErrorField.style.display = "block";
+        valid = false;
+    } else {
+        passwordErrorField.style.display = "none";
+    }
+
+    // Confirm password validation
+    if (password !== confirmPassword) {
+        confirmPasswordErrorField.textContent = "Passwords do not match";
+        confirmPasswordErrorField.style.display = "block";
+        valid = false;
+    } else {
+        confirmPasswordErrorField.style.display = "none";
+    }
+
+    // Profile picture validation
+    if (profilePicture === 0) {
+        profilePictureErrorField.textContent = "Profile picture is required";
+        profilePictureErrorField.style.display = "block";
+        valid = false;
+    } else {
+        profilePictureErrorField.style.display = "none";
+    }
+
+    // Email validation (basic check for '@' and '.')
+    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        emailErrorField.textContent = "Invalid email format";
+        emailErrorField.style.display = "block";
+        valid = false;
+    } else {
+        // Check if the email already exists in the database (AJAX call)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "check_email.php", true); // The script that checks the email
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText == "exists") {
+                    emailErrorField.textContent = "Email already exists";
+                    emailErrorField.style.display = "block";
+                    valid = false; // Ensure the form is invalid if email exists
+                } else {
+                    emailErrorField.style.display = "none";
+                }
             }
+        };
+        xhr.send("email=" + encodeURIComponent(email));
+    }
 
-            if (password.length < 5) {
-                passwordErrorField.textContent = "Password must contain at least 5 characters";
-                passwordErrorField.style.display = "block";
-                valid = false;
-            } else {
-                passwordErrorField.style.display = "none";
-            }
+    return valid;
+}
 
-            if (password !== confirmPassword) {
-                confirmPasswordErrorField.textContent = "Passwords do not match";
-                confirmPasswordErrorField.style.display = "block";
-                valid = false;
-            } else {
-                confirmPasswordErrorField.style.display = "none";
-            }
 
-            if (profilePicture === 0) {
-                profilePictureErrorField.textContent = "Profile picture is required";
-                profilePictureErrorField.style.display = "block";
-                valid = false;
-            } else {
-                profilePictureErrorField.style.display = "none";
-            }
-
-            // Simple email validation (basic check for '@' and '.')
-            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!emailPattern.test(email)) {
-                emailErrorField.textContent = "Invalid email format";
-                emailErrorField.style.display = "block";
-                valid = false;
-            } else {
-                emailErrorField.style.display = "none";
-            }
-
-            return valid;
-        }
     </script>
 </head>
 <body>
@@ -220,38 +241,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required><br>
+<input type="text" id="name" name="name" placeholder="Juan Delacruz" value="<?php echo htmlspecialchars($name); ?>" required><br>
 
-            <label for="email">Email:</label>
-<input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
-<p class="error-email-text" id="email_error" style="display: none;"><?php echo $email_error; ?></p>
-<!-- Email Error Handling -->
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" placeholder="example@gmail.com" value="<?php echo htmlspecialchars($email); ?>" required>
 <p class="error-email-text" id="email_error" style="display: <?php echo !empty($email_error) ? 'block' : 'none'; ?>;">
     <?php echo $email_error; ?>
 </p>
 
-            <label for="birthdate">Birthdate:</label>
-            <input type="date" id="birthdate" name="birthdate" value="<?php echo htmlspecialchars($birthdate); ?>" required onchange="calculateAge();">
-            <button type="button" onclick="resetCalendar();">Reset Calendar</button><br><br>
 
-            <input type="hidden" id="age" name="age" value="<?php echo htmlspecialchars($age); ?>">
 
-            <label for="school_id_number">School ID Number:</label>
-            <input type="text" id="school_id_number" name="school_id_number" value="<?php echo htmlspecialchars($school_id_number); ?>" class="<?php echo !empty($school_id_format_error) ? 'input-error' : ''; ?>" required><br>
-            <p class="error-text" id="school_id_format_error" style="<?php echo !empty($school_id_format_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $school_id_format_error; ?></p>
-            <p class="error-text" id="school_id_error" style="<?php echo !empty($school_id_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $school_id_error; ?></p> <!-- Added error display for school ID -->
+<label for="birthdate">Birthdate:</label>
+<input type="date" id="birthdate" name="birthdate" value="<?php echo htmlspecialchars($birthdate); ?>" required onchange="calculateAge();">
+<button type="button" onclick="resetCalendar();">Reset Calendar</button><br><br>
 
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username); ?>" class="<?php echo !empty($username_error) ? 'input-error' : ''; ?>" required><br>
-            <p class="error-text" id="username_error" style="<?php echo !empty($username_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $username_error; ?></p>
+<label for="school_id_number">School ID Number:</label>
+<input type="text" id="school_id_number" name="school_id_number" placeholder="SCC-00-000" value="<?php echo htmlspecialchars($school_id_number); ?>" class="<?php echo !empty($school_id_format_error) ? 'input-error' : ''; ?>" required><br>
+<p class="error-text" id="school_id_format_error" style="<?php echo !empty($school_id_format_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $school_id_format_error; ?></p>
+<p class="error-text" id="school_id_error" style="<?php echo !empty($school_id_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $school_id_error; ?></p>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="<?php echo !empty($password_error) ? 'input-error' : ''; ?>" required><br>
-            <p class="error-text" id="password_error" style="<?php echo !empty($password_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $password_error; ?></p>
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" placeholder="username" value="<?php echo htmlspecialchars($username); ?>" class="<?php echo !empty($username_error) ? 'input-error' : ''; ?>" required><br>
+<p class="error-text" id="username_error" style="<?php echo !empty($username_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $username_error; ?></p>
 
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" class="<?php echo !empty($password_match_error) ? 'input-error' : ''; ?>" required><br>
-            <p class="error-text" id="confirm_password_error" style="<?php echo !empty($password_match_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $password_match_error; ?></p>
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" placeholder="Enter password" class="<?php echo !empty($password_error) ? 'input-error' : ''; ?>" required><br>
+<p class="error-text" id="password_error" style="<?php echo !empty($password_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $password_error; ?></p>
+
+<label for="confirm_password">Confirm Password:</label>
+<input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter password" class="<?php echo !empty($password_match_error) ? 'input-error' : ''; ?>" required><br>
+<p class="error-text" id="confirm_password_error" style="<?php echo !empty($password_match_error) ? 'display: block;' : 'display: none;'; ?>"><?php echo $password_match_error; ?></p>
 
             <label for="profile_picture">Profile Picture:</label>
             <input type="file" id="profile_picture" name="profile_picture" required>
