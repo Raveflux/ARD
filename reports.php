@@ -1,6 +1,6 @@
 <?php
 include_once "db_connection.php";
-session_start();
+
 
 // Check if the user is logged in as admin
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
@@ -8,11 +8,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     exit();
 }
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Pagination and search logic
 $results_per_page = 10;
