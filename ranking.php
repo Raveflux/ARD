@@ -6,12 +6,7 @@ if (!isset($_SESSION['student_id'])) {
     exit();
 }
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // PHPMailer dependencies
 use PHPMailer\PHPMailer\PHPMailer;
