@@ -1,12 +1,12 @@
 <?php
-session_start();
-include_once "db_connection.php";
+session_start();  // Make sure session starts at the beginning
+include_once "db_connection.php";  // Ensure the connection is made after session start
+
+// Check if user is logged in
 if (!isset($_SESSION['student_id'])) {
     header("Location: login.php");
     exit();
 }
-
-
 
 // PHPMailer dependencies
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,6 +16,7 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
+// Function to send email notifications
 function sendEmail($recipientEmail, $subject, $body) {
     $mail = new PHPMailer(true);
 
@@ -63,7 +64,7 @@ $conn->close();
 
 // Email notification for the top 3 students
 foreach ($rankings as $index => $student) {
-    if ($index < 3) { // Send email only to the top 3 students
+    if ($index < 3) {  // Send email only to the top 3 students
         $rank = $index + 1;
         $recipientEmail = $student['email'];
 
@@ -74,18 +75,15 @@ foreach ($rankings as $index => $student) {
                      <p>Congratulations! You are currently ranked #$rank with {$student['points']} points in the student leaderboard.</p>
                      <p>Keep up the great work!</p>
                      <p>Best regards,<br>Your School Team</p>";
-            
+
             sendEmail($recipientEmail, $subject, $body);
         } else {
-        
+            // Handle invalid email addresses if necessary
+            echo "Invalid email address for {$student['name']}<br>";
         }
     }
 }
-
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,9 +93,8 @@ foreach ($rankings as $index => $student) {
     <title>Top 3 Ranking Leaderboard</title>
     <link rel="stylesheet" href="studentstyles.css"> <!-- General CSS -->
     <link rel="stylesheet" href="studentstyles.css"> <!-- Student-specific CSS -->
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
+
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
