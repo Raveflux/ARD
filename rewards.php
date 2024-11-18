@@ -1,19 +1,13 @@
 <?php
 include_once "db_connection.php";
-session_start();
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); // Replace 'mysql' with the service name if you're in Docker
+
 
 if (!isset($_SESSION['student_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'student_rewards');
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Get the current page number from the URL, default to 1
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
