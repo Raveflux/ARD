@@ -1,5 +1,5 @@
 <?php
-session_start();  // Make sure session starts at the beginning
+
 include_once "db_connection.php";  // Ensure the connection is made after session start
 
 // Check if user is logged in
