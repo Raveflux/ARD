@@ -1,17 +1,14 @@
 <?php
 include_once "db_connection.php";
 
-session_start();
-$conn = new mysqli('localhost', 'root', '', 'student_rewards'); 
+
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header("Location: login.php");
     exit();
 }
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Handle voucher creation
 if (isset($_POST['create_voucher'])) {
